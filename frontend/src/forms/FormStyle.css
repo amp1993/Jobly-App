@@ -1,0 +1,50 @@
+.form-container {
+    background-color: rgba(111, 173, 194, 0.631);
+    padding: 5%;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    width: 15%;
+
+
+}
+
+label {
+    display: block;
+    padding-right: 130px;
+    margin-bottom: 5px;
+}
+
+.field {
+    width: 200px;
+    margin-bottom: 5px;
+}
+
+.button-container {
+    text-align: center;
+    padding-top: 10px;
+}
+
+button {
+    border-color: white;
+    color: white;
+    background-color: teal(111, 173, 194);
+
+}
+
+.error-message {
+    color: red;
+}
+
+.form-div{
+    display: flex;
+    justify-content: center;
+}
+
+.signup-title {
+text-align: center;
+}
+
+.login-title{
+    text-align: center;
+}

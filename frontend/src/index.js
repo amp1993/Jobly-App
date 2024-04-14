@@ -3,11 +3,14 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import JoblyContextProvider from './context/JoblyContextProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+            <JoblyContextProvider>
+                <App />
+            </JoblyContextProvider>
   </React.StrictMode>
 );
 

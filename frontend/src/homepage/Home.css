@@ -1,0 +1,23 @@
+.home-container{
+    text-align: center;
+    font-size: 25px;
+    margin-top: 10%;
+}
+
+button{
+    margin: 10px;
+    font-size: 18px;
+    border-style: none;
+    padding: 8px;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: white;
+    background-color: teal;
+    border-radius: 3px;
+}
+
+button:hover{
+    background-color:yellowgreen;
+
+}
+

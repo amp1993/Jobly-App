@@ -1,0 +1,96 @@
+import React from "react";
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { useNavigate} from 'react-router-dom';
+
+
+const SignupForm = ({ signUp}) => {
+    const navigate = useNavigate();        
+
+
+
+
+    const initialValues = {
+        'username': '',
+        'password': '',
+        'firstName': '',
+        'lastName': '',
+        'email':'',
+
+    };
+
+    const fieldsToValidate = ['username', 'password', 'firstName','lastName',
+    'email'];
+
+
+    // const handleChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setFormData({ ...formData, [name]: value });
+    // };
+
+    const handleSubmit = async (values, {setSubmitting}) => {
+        let result = await signUp(values);
+        setSubmitting(false)
+        navigate('/')
+        };  
+       
+ 
+
+    return (
+        <>
+        <h1 className="signup-title">Sign Up</h1>
+        <div className="form-div">
+            <div className="form-container">
+                <Formik
+                    initialValues={initialValues}
+                    validate={values => {
+                        const errors = {};
+                        fieldsToValidate.forEach(field => {
+                            if (!values[field]) {
+                                errors[field] = 'required'
+                            }
+                        })
+                        return errors;
+                    }}
+                    onSubmit={handleSubmit}>
+                        
+                    {({ isSubmitting }) => (
+                        <Form>
+                            <label htmlFor="username">Username:</label>
+                            <Field type='text' name='username' className='field'></Field>
+                            <ErrorMessage name="username" component='div' className="error-message"></ErrorMessage>
+
+                            <label htmlFor="password">Password:</label>
+                            <Field type='text' name='password' className='field'></Field>
+                            <ErrorMessage name="password" component='div' className="error-message"></ErrorMessage>
+
+                            <label htmlFor="firstName">First Name:</label>
+                            <Field type='text' name='firstName' className='field'></Field>
+                            <ErrorMessage name="firstName" component='div' className="error-message"></ErrorMessage>
+
+                            <label htmlFor="lastName">Last Name:</label>
+                            <Field type='text' name='lastName'className='field'></Field>
+                            <ErrorMessage name="lastName" component='div' className="error-message"></ErrorMessage>
+
+                            <label htmlFor="email">Email:</label>
+                            <Field type='text' name='email' className='field'></Field>
+                            <ErrorMessage name="email" component='div' className="error-message"></ErrorMessage>
+
+
+                          
+                        <div className="button-container">
+                            <button type='submit' disabled={isSubmitting} onSubmit={handleSubmit}>Submit</button>
+                        </div>
+                        
+                        </Form>
+                       
+                       )}
+                </Formik>
+
+            </div>
+        </div>
+        </>
+        
+    )
+};
+
+export default SignupForm;
