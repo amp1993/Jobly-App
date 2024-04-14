@@ -18,7 +18,7 @@ const Home = () => {
                 </>
             ): (
                 <>
-                 <h1>Welcome back, {user}</h1>
+                 <h1>Welcome back, {user.firstName}</h1>
                 </>
             )}
            

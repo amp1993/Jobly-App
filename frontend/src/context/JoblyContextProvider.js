@@ -4,7 +4,9 @@ import JoblyApi from "../api/api";
 import JoblyContext from "./JoblyContext";
 import { Navigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
-import { useLocation } from 'react-router-dom';
+import useLocalStorage from "../hooks/useLocalStorage";
+
+export const TOKEN_STORAGE_ID = "jobly-token";
 
 
 const JoblyContextProvider = ({ children }) => {
@@ -13,73 +15,34 @@ const JoblyContextProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState(null);
     const [userLoggedIn, setUserLoggedIn] = useState(false);
-    const [token, setToken] = useState(null);
+    const [token, setToken] = useLocalStorage([null]);
     const [filteredJobs, setFilteredJobs] = useState(null);
-    const [filteredCompanies, setFilteredCompanies] = useState(null); 
+    const [filteredCompanies, setFilteredCompanies] = useState(null);
+
 
 
     useEffect(function loadUserInfo() {
-    
+
         async function getCurrentUser() {
-          if (token) {
-            try {
-              // put the token on the Api class so it can use it to call the API.
-              const tokenDecoded = jwtDecode(token);
-              const username = tokenDecoded.username;
-              setUser(username);
-              JoblyApi.token = token;
-            //   let currentUser = await JoblyApi.getUser({username});
-            //   setUser(currentUser);
-            setUser(username)
-            } catch (err) {
-              console.error("App loadUserInfo: problem loading", err);
-              setUser(null);
+            if (token) {
+                try {
+                    let { username } = jwtDecode(token);
+                    // put the token on the Api class so it can use it to call the API.
+                    JoblyApi.token = token;
+                    let currentUser = await JoblyApi.getUser([username]);
+                    console.log(currentUser)
+                    setUser(currentUser);
+                    console.log(currentUser.username)
+                } catch (err) {
+                    console.error("App loadUserInfo: problem loading", err);
+                    setUser(null);
+                }
             }
-          }
-          setIsLoading(false);
         }
-    
-        // set infoLoaded to false while async getCurrentUser runs; once the
-        // data is fetched (or even if an error happens!), this will be set back
-        // to false to control the spinner.
-        setIsLoading(true);
+
+
         getCurrentUser();
-      }, [token]);
-
-
-
-    const signUp = async (signupData) => {
-        try {
-            let createToken = await JoblyApi.signup(signupData);
-            setToken(createToken);
-            setUser(signupData.username)
-            setUserLoggedIn(true)
-        } catch (error) {
-            alert(error)
-        }};
-
-
-
-    const login = async (loginData) =>{
-        try{
-            const tokenData = await JoblyApi.logIn(loginData);
-            setToken(tokenData);
-            const tokenDecoded = jwtDecode(tokenData);
-            const username = tokenDecoded.username;
-            setUser(username)
-            setUserLoggedIn(true);       
-        } catch (error){
-            alert(error)
-        }
-    };
-
-
-    const logOut = () => {
-        setToken(null)
-        setUser(null)
-        setUserLoggedIn(false)
-        return <Navigate to='/'/>
-    };
+    }, [token]);
 
 
 
@@ -101,16 +64,63 @@ const JoblyContextProvider = ({ children }) => {
         fetchData();
     }, []);
 
+
+    const signUp = async (signupData) => {
+        try {
+            let createToken = await JoblyApi.signup(signupData);
+            setToken(createToken);
+            setUser(signupData.username)
+            setUserLoggedIn(true)
+        } catch (error) {
+            alert(error)
+        }
+    };
+
+
+
+    const login = async (loginData) => {
+        try {
+            const tokenData = await JoblyApi.logIn(loginData);
+            setToken(tokenData);
+            const tokenDecoded = jwtDecode(tokenData);
+            const username = tokenDecoded.username;
+            setUser(username)
+            setUserLoggedIn(true);
+        } catch (error) {
+            alert(error)
+        }
+    };
+
+    const updateUserProfile = async (username, dataToUpdate) =>{
+        try{
+            let updateUser = await JoblyApi.updateUser(username, dataToUpdate);
+            setUser(updateUser)
+
+        } catch (error){
+            alert(error)
+        }
+    };
+
+
+    const logOut = () => {
+        setToken(null)
+        setUser(null)
+        setUserLoggedIn(false)
+        return <Navigate to='/' />
+    };
+
+
+
     const search = (searchData, path) => {
         const query = searchData.toLowerCase();
-    
+
         if (path === '/companies') {
             const filtered = companies.filter(company =>
                 company.name.toLowerCase().startsWith(query)
             );
-    
+
             if (filtered.length === 0) {
-                setFilteredCompanies(null); // Reset filtered companies state
+                setFilteredCompanies('0 results'); // Reset filtered companies state
             } else {
                 setFilteredCompanies(filtered);
             }
@@ -118,20 +128,20 @@ const JoblyContextProvider = ({ children }) => {
             const filtered = jobs.filter(job =>
                 job.title.toLowerCase().startsWith(query)
             );
-    
+
             if (filtered.length === 0) {
-                setFilteredJobs(null); // Reset filtered jobs state
+                setFilteredJobs('0 results'); // Reset filtered jobs state
             } else {
                 setFilteredJobs(filtered);
             }
         }
     };
 
- 
+
 
 
     return (
-        <JoblyContext.Provider value={{ user, companies, jobs, isLoading, signUp, userLoggedIn, logOut, login, search, filteredCompanies, filteredJobs, jobs }}>
+        <JoblyContext.Provider value={{ user, companies, jobs, isLoading, signUp, userLoggedIn, logOut, login, search, filteredCompanies, filteredJobs, jobs, updateUserProfile }}>
             {children}
         </JoblyContext.Provider>
     );

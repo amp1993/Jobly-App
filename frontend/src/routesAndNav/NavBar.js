@@ -7,7 +7,7 @@ import JoblyContext from "../context/JoblyContext";
 
 const NavBar = () => {
 
-    const { userLoggedIn, logOut } = useContext(JoblyContext)
+    const { userLoggedIn, logOut, user } = useContext(JoblyContext)
     return (
         <div>
             <Navbar expand='md'>
@@ -31,11 +31,19 @@ const NavBar = () => {
                         </>
 
                     ) : (
-                        <NavItem>
-                            <NavLink >
-                              <button onClick={logOut}>Log Out</button>  
-                            </NavLink>
-                        </NavItem>
+                        <>
+                            <NavItem>
+                            <NavLink to={`/profile/${user.username}`}>Profile</NavLink>
+                            </NavItem>
+                            <NavItem>
+
+                                <NavLink onClick={logOut}>
+                                  Log Out
+                                </NavLink>
+
+                            </NavItem>
+                        </>
+
                     )
                     }
 

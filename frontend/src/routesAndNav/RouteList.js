@@ -8,11 +8,11 @@ import Home from "../homepage/Home";
 import JoblyContext from "../context/JoblyContext";
 import SignupForm from "../forms/SignupForm";
 import LoginForm from "../forms/LoginForm";
-
+import ProfileForm from "../profile/ProfileForm";
 
 const RouteList = () => {
 
-    const {companies, jobs, signUp } = useContext(JoblyContext);
+    const {companies, jobs, signUp, user } = useContext(JoblyContext);
 
 
     return (
@@ -25,7 +25,7 @@ const RouteList = () => {
 
                 <Route path='/companies/:handle' element={<CompanyDetails companies={companies} jobs={jobs}/>}  />
 
-                <Route path='/profile' element={<LoginForm  signUp={signUp}/>} />
+                <Route path='/profile/:username' element={<ProfileForm  />} />
 
                 <Route path='/login' element={<LoginForm />}/>
 

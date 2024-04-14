@@ -12,12 +12,12 @@ const JobList = () => {
 
 
 
-    console.log(jobs)
+    // console.log(jobs)
 
     return (
         <>
             <SearchField pathname={pathname} />
-            {filteredJobs === null ? (
+            {filteredJobs === '0 results'  ? (
                 <p className="no-results">0 results found</p>
             ) : (
                 <ul>
@@ -28,6 +28,7 @@ const JobList = () => {
                             <p>{job.companyName}</p>
                             <p>Salary: {job.salary}</p>
                             <p>Equity: {job.equity}</p>
+                            <button className="apply-button">Apply</button>
 
                         </li>))}
                 </ul>)}

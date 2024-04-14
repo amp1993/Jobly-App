@@ -14,7 +14,7 @@ const CompanyList = () => {
         <>
             <SearchField pathname={pathname}/>
 
-            {filteredCompanies === null  ? (
+            {filteredCompanies === '0 results' ? (
                 <p className="no-results">0 results found</p>
             ) : (
                 <ul>
