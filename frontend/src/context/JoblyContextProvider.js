@@ -30,9 +30,7 @@ const JoblyContextProvider = ({ children }) => {
                     // put the token on the Api class so it can use it to call the API.
                     JoblyApi.token = token;
                     let currentUser = await JoblyApi.getUser([username]);
-                    console.log(currentUser)
                     setUser(currentUser);
-                    console.log(currentUser.username)
                 } catch (err) {
                     console.error("App loadUserInfo: problem loading", err);
                     setUser(null);
@@ -136,7 +134,6 @@ const JoblyContextProvider = ({ children }) => {
             }
         }
     };
-
 
 
 

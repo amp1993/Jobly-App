@@ -17,8 +17,6 @@ const ProfileForm = () => {
               navigate('/')
             }
         }
-
-
         checkIfUserLoggedIn();
     }, []);
 
@@ -44,7 +42,6 @@ const ProfileForm = () => {
         setSubmitting(false)
         navigate('/')
         };  
-       console.log(user.username)
  
 
     return (

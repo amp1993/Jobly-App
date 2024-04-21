@@ -5,7 +5,6 @@ import JoblyContext from "../context/JoblyContext";
 
 const CompanyList = () => {
     const { companies, filteredCompanies } = useContext(JoblyContext);
-    console.log(companies)
     const location = useLocation();
     const pathname = location.pathname;
 

@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import JoblyContext from '../context/JoblyContext';
+import './SearchField.css'
 
 const SearchField = ({pathname}) =>{
     const {search } = useContext(JoblyContext);
@@ -26,9 +27,7 @@ const SearchField = ({pathname}) =>{
                             <Field type='text' name='search' className='field'></Field>
 
                         
-                        <div className="search-button-container">
                             <button type='submit' disabled={isSubmitting}>Submit</button>
-                        </div>
                         
                         </Form>
                        
